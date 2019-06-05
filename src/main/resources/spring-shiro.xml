@@ -60,4 +60,17 @@
 	<bean class="org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor">
 		<property name="SecurityManager" ref="securityManager" />
 	</bean>
+	
+	<!-- 记住我操作需要的Bean对象 -->
+	<!-- 记住我密码Cookie -->
+	<bean id="rememberMeCookie" class="org.apache.shiro.web.servlet.SimpleCookie">
+		<constructor-arg value="rememberMe"/>
+		<!-- 7天，采用spring el表达式来计算，方便修改 -->
+		<property name="maxAge" value="#{7*24*60*60}"/>
+		<property name="domain" value=""/>
+	</bean>
+	<!-- rememberMe管理器，cipherKey生成见{@code Base64Test.java} -->
+	<bean id="rememberMeManager" class="org.apache.shiro.web.mgt.CookieRememberMeManager">
+		<property name="cookie" ref="rememberMeCookie"/>
+	</bean>
 </beans>
